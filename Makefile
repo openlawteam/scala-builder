@@ -1,5 +1,5 @@
 ORG = openlaw
-TAG = $(ORG)/scala-sbt
+TAG = $(ORG)/scala-builder
 
 .PHONY: image
 image:

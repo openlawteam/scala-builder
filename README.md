@@ -11,16 +11,16 @@ actual Node projects, please use an official node image as the builder).
 ## Installation ##
 
 1. Install [Docker](https://www.docker.com)
-2. Pull [automated build](https://hub.docker.com/r/openlaw/scala-sbt/) from 
+2. Pull [automated build](https://hub.docker.com/r/openlaw/scala-builder/) from 
 public [Docker Hub Registry](https://registry.hub.docker.com):
 ```
-docker pull openlaw/scala-sbt
+docker pull openlaw/scala-builder
 ```
 
 ## Usage ##
 
 ```
-docker run -it --rm openlaw/scala-sbt
+docker run -it --rm openlaw/scala-builder
 ```
 
 ## License ##
