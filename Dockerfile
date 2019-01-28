@@ -1,18 +1,24 @@
+## Scala and sbt Dockerfile
 #
-# Scala and sbt Dockerfile
+# Based on: https://github.com/hseeberger/scala-sbt
+# Modified to use slim base image for build.
 #
-# https://github.com/hseeberger/scala-sbt
-#
+# Tracking issue for a slimmer upstream build:
+# https://github.com/hseeberger/scala-sbt/issues/55
 
 # Pull base image
-FROM openjdk:11.0.1
+FROM openjdk:11-slim
 
 # Env variables
 ENV SCALA_VERSION 2.12.8
 ENV SBT_VERSION 1.2.8
 
+# Install curl
+RUN apt-get update && apt-get install -y \
+    curl \
+ && rm -rf /var/lib/apt/lists/*
+
 # Install Scala
-## Piping curl directly in tar
 RUN \
   curl -fsL https://downloads.typesafe.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz | tar xfz - -C /root/ && \
   echo >> /root/.bashrc && \
