@@ -9,9 +9,9 @@
 # Pull base image
 FROM openjdk:11-slim
 
-# Env variables
-ENV SCALA_VERSION 2.12.8
-ENV SBT_VERSION 1.2.8
+# Build variables
+ARG SCALA_VERSION=2.12.8
+ARG SBT_VERSION=1.2.8
 
 # Install needed local programs for installations
 RUN apt-get update && apt-get install -y \
