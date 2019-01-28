@@ -1,13 +1,18 @@
-# Scala and sbt Dockerfile
+# Scala/SBT Builder with ScalaJS support
 
-This repository contains **Dockerfile** of [Scala](http://www.scala-lang.org) and [sbt](http://www.scala-sbt.org).
+Based on `hseeberger/scala-sbt` but modified to be based on slim base for a
+slimmer build, and contains node which is a build environment dependency for
+ScalaJS.
 
-Based on `hseeberger/scala-sbt` but modified to be based on slim base for a slimmer build.
+Note that while this image contains NodeJS, it should never be used as a base
+for Node projects. NodeJS is provided strictly as a dependency of ScalaJS. (For
+actual Node projects, please use an official node image as the builder).
 
 ## Installation ##
 
 1. Install [Docker](https://www.docker.com)
-2. Pull [automated build](https://hub.docker.com/r/openlaw/scala-sbt/) from public [Docker Hub Registry](https://registry.hub.docker.com):
+2. Pull [automated build](https://hub.docker.com/r/openlaw/scala-sbt/) from 
+public [Docker Hub Registry](https://registry.hub.docker.com):
 ```
 docker pull openlaw/scala-sbt
 ```

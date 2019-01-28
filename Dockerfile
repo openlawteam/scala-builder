@@ -13,10 +13,16 @@ FROM openjdk:11-slim
 ENV SCALA_VERSION 2.12.8
 ENV SBT_VERSION 1.2.8
 
-# Install curl
+# Install needed local programs for installations
 RUN apt-get update && apt-get install -y \
     curl \
+    gnupg \
  && rm -rf /var/lib/apt/lists/*
+
+# Install NodeJS 10.x [LTS branch] (needed for ScalaJS)
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+  && apt-get install -y nodejs \
+  && rm -rf /var/lib/apt/lists/*
 
 # Install Scala
 RUN \
