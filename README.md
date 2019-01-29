@@ -1,4 +1,4 @@
-# Scala/SBT Builder Docker Images
+# Scala/SBT Builder
 
 Docker images for building Scala/SBT projects, with optional ScalaJS support.
 
@@ -19,8 +19,10 @@ This is the defacto image. If you are unsure about what your needs are, you
 probably want to use this one. It is designed to be used both as a throw away
 container as well as the base to build other images off of.
 
-This was originally based on `hseeberger/scala-sbt` but modified to be based on
-slim base for a smaller build.
+This was originally based on [`hseeberger/scala-sbt`] but modified to be based
+on slim base for a smaller build.
+
+[`hseeberger/scala-sbt`]: https://github.com/hseeberger/scala-sbt
 
 ### `openlaw/scala-builder:*-node`
 
