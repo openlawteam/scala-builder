@@ -1,0 +1,6 @@
+FROM openlaw/scala-builder:slim
+
+# Install NodeJS 10.x [LTS branch] (needed for ScalaJS)
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+  && apt-get install -y nodejs \
+  && rm -rf /var/lib/apt/lists/*

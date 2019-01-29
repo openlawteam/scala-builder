@@ -1,6 +1,10 @@
 ORG = openlaw
-TAG = $(ORG)/scala-builder
+NAME = $(ORG)/scala-builder
 
-.PHONY: image
-image:
-	docker build -t $(TAG) .
+.PHONY: slim node
+default: slim node
+slim:
+	docker build -t $(NAME):latest -t $(NAME):slim .
+
+node: slim
+	docker build -f Dockerfile.node -t $(NAME):node .

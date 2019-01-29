@@ -7,22 +7,17 @@
 # https://github.com/hseeberger/scala-sbt/issues/55
 
 # Pull base image
-FROM openjdk:11-slim
+FROM openjdk:11.0.1-slim
 
 # Build variables
 ARG SCALA_VERSION=2.12.8
 ARG SBT_VERSION=1.2.8
 
 # Install needed local programs for installations
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install --no-install-recommends -y \
     curl \
     gnupg \
  && rm -rf /var/lib/apt/lists/*
-
-# Install NodeJS 10.x [LTS branch] (needed for ScalaJS)
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
-  && apt-get install -y nodejs \
-  && rm -rf /var/lib/apt/lists/*
 
 # Install Scala
 RUN \
@@ -36,14 +31,15 @@ RUN \
   dpkg -i sbt-$SBT_VERSION.deb && \
   rm sbt-$SBT_VERSION.deb && \
   apt-get update && \
-  apt-get install sbt && \
+  apt-get install -y sbt && \
   sbt sbtVersion && \
   mkdir project && \
   echo "scalaVersion := \"${SCALA_VERSION}\"" > build.sbt && \
   echo "sbt.version=${SBT_VERSION}" > project/build.properties && \
   echo "case object Temp" > Temp.scala && \
   sbt compile && \
-  rm -r project && rm build.sbt && rm Temp.scala && rm -r target
+  rm -r project && rm build.sbt && rm Temp.scala && rm -r target && \
+  rm -rf /var/lib/apt/lists/*
 
 # Define working directory
 WORKDIR /root
