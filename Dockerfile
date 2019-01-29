@@ -1,12 +1,7 @@
 ## Scala and sbt Dockerfile
 #
-# Based on: https://github.com/hseeberger/scala-sbt
+# Originally based on: https://github.com/hseeberger/scala-sbt
 # Modified to use slim base image for build.
-#
-# Tracking issue for a slimmer upstream build:
-# https://github.com/hseeberger/scala-sbt/issues/55
-
-# Pull base image
 FROM openjdk:11.0.1-slim
 
 # Build variables
@@ -33,13 +28,18 @@ RUN \
   apt-get update && \
   apt-get install -y sbt && \
   sbt sbtVersion && \
+  rm -rf /var/lib/apt/lists/*
+
+# Cache stuff in /root/.ivy2 etc
+#
+# TODO: better document what is actually happening here and why.
+RUN \
   mkdir project && \
   echo "scalaVersion := \"${SCALA_VERSION}\"" > build.sbt && \
   echo "sbt.version=${SBT_VERSION}" > project/build.properties && \
   echo "case object Temp" > Temp.scala && \
   sbt compile && \
-  rm -r project && rm build.sbt && rm Temp.scala && rm -r target && \
-  rm -rf /var/lib/apt/lists/*
+  rm -r project && rm build.sbt && rm Temp.scala && rm -r target
 
 # Define working directory
 WORKDIR /root
