@@ -1,4 +1,4 @@
-# Scala/SBT Builder
+# Scala/SBT Builder :wrench:
 
 Docker images for building Scala/SBT projects, with optional ScalaJS support.
 
