@@ -32,4 +32,3 @@ tag-node: node
 		echo "Tagging node release images for $(RELEASE_TAG)" ;\
 		docker tag $(NAME):node $(NAME):$(RELEASE_TAG:v%=%)-node ; \
 	fi
-

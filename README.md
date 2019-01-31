@@ -2,10 +2,10 @@
 
 Docker images for building Scala/SBT projects, with optional ScalaJS support.
 
-## Installation 
+## Installation
 
 1. Install [Docker](https://www.docker.com)
-2. Pull [automated build](https://hub.docker.com/r/openlaw/scala-builder/) from 
+2. Pull [automated build](https://hub.docker.com/r/openlaw/scala-builder/) from
 public [Docker Hub Registry](https://registry.hub.docker.com):
 ```
 docker pull openlaw/scala-builder

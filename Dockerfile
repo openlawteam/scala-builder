@@ -12,7 +12,7 @@ ARG SBT_VERSION=1.2.8
 RUN apt-get update && apt-get install --no-install-recommends -y \
     curl \
     gnupg \
- && rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/*
 
 # Install Scala
 RUN \
