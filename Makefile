@@ -8,7 +8,7 @@ RELEASE_TAG := $(shell git describe --tag \
 									--exact-match HEAD \
 									2>/dev/null)
 
-.PHONY: all slim node tag-slim tag-node
+.PHONY: all slim node tag-slim tag-node publish
 
 all: tag-slim tag-node
 
@@ -32,3 +32,6 @@ tag-node: node
 		echo "Tagging node release images for $(RELEASE_TAG)" ;\
 		docker tag $(NAME):node $(NAME):$(RELEASE_TAG:v%=%)-node ; \
 	fi
+
+publish:
+	docker push $(NAME) $(NAME):node
