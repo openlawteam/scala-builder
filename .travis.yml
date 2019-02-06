@@ -1,0 +1,17 @@
+language: bash
+
+services:
+  - docker
+
+script:
+  - make
+
+after_success:
+  - docker images
+  - if [[ "$TRAVIS_TAG" =~ ^v[[:digit:]].* ]]; then
+      echo "$DOCKER_PASS" | docker login -u $DOCKER_USER --password-stdin ;
+      make publish ;
+    fi
+
+notifications:
+  email: false
