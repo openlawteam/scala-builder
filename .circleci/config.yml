@@ -1,0 +1,37 @@
+version: 2
+jobs:
+  build:
+    machine:
+      docker_layer_caching: true
+    steps:
+      - checkout
+
+      # build & tag the application images
+      - run: make tag-slim
+      - run: make tag-node
+
+      # list images to see what the result was
+      - run: docker images
+
+      # deploy the image
+      #- run: docker push company/app:$CIRCLE_BRANCH
+
+      # start proprietary DB using private Docker image
+      # with credentials stored in the UI
+      #- run: |
+      #    docker login -u $DOCKER_USER -p $DOCKER_PASS
+      #   docker run -d --name db company/proprietary-db:1.2.3
+
+# set up custom workflow to enable build to run on release tag pushes as well
+# https://circleci.com/docs/2.0/workflows/#executing-workflows-for-a-git-tag
+workflows:
+  version: 2
+  untagged-build:
+    jobs:
+      - build
+  tagged-build:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /^v.*/
