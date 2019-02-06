@@ -25,12 +25,16 @@ jobs:
 # https://circleci.com/docs/2.0/workflows/#executing-workflows-for-a-git-tag
 workflows:
   version: 2
+  # run on all branch pushes
   untagged-build:
     jobs:
       - build
+  # run on any tag pushes where tag begins with "v"
   tagged-build:
     jobs:
       - build:
           filters:
+            branches:
+              ignore: /.*/
             tags:
               only: /^v.*/
