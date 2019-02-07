@@ -13,10 +13,14 @@ RELEASE_TAG := $(shell git describe --tag \
 all: tag-slim tag-node
 
 slim:
-	docker build -t $(NAME):latest -t $(NAME):slim .
+	docker build \
+		--cache-from $(NAME):slim \
+		-t $(NAME):latest -t $(NAME):slim .
 
 node: slim
-	docker build -f Dockerfile.node -t $(NAME):node .
+	docker build -f Dockerfile.node \
+		--cache-from $(NAME):node \
+		-t $(NAME):node .
 
 tag-slim: slim
 	@ # if release version, add :X.Y.Z and :X.Y.Z-slim to tags

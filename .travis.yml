@@ -3,6 +3,11 @@ language: bash
 services:
   - docker
 
+# pull existing releases, so docker build can leverage them via --cache-from
+before_script:
+  - docker pull openlaw/scala-builder:slim
+  - docker pull openlaw/scala-builder:node
+
 script:
   - make
 
