@@ -1,6 +1,14 @@
-# Scala/SBT Builder :wrench:
+<h1>
+    <img src="docs/pizza-scala-128.png" width=64>
+    Scala/SBT Builder
+</h1>
 
 Docker images for building Scala/SBT projects, with optional ScalaJS support.
+
+[![](https://images.microbadger.com/badges/version/openlaw/scala-builder.svg)](https://hub.docker.com/r/openlaw/scala-builder)
+[![Build Status](https://travis-ci.com/openlawteam/scala-builder.svg?branch=master)](https://travis-ci.com/openlawteam/scala-builder)
+![](https://img.shields.io/badge/pizza%20dog-approved-brightgreen.svg)
+
 
 ## Installation
 
