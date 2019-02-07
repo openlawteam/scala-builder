@@ -40,3 +40,7 @@ tag-node: node
 publish:
 	docker push $(NAME):slim
 	docker push $(NAME):node
+	docker push $(NAME):latest
+	docker push $(NAME):$(RELEASE_TAG:v%=%)
+	docker push $(NAME):$(RELEASE_TAG:v%=%)-slim
+	docker push $(NAME):$(RELEASE_TAG:v%=%)-node
