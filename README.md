@@ -5,6 +5,10 @@
 
 Docker images for building Scala/SBT projects, with optional ScalaJS support.
 
+Built on top of Alpine Linux with a few tricks to keep things small, and
+contains a built-in workaround for the docker layer-caching bug in SBT. See
+the Dockerfile for details.
+
 [![](https://images.microbadger.com/badges/version/openlaw/scala-builder.svg)](https://hub.docker.com/r/openlaw/scala-builder)
 [![Build Status](https://travis-ci.com/openlawteam/scala-builder.svg?branch=master)](https://travis-ci.com/openlawteam/scala-builder)
 ![](https://img.shields.io/badge/pizza%20dog-approved-brightgreen.svg)
@@ -21,16 +25,11 @@ docker pull openlaw/scala-builder
 
 ## Image Variants
 
-### `openlaw/scala-builder:`, `openlaw:scala-builder:*-slim`
+### `openlaw/scala-builder:`, `openlaw:scala-builder:*-alpine`
 
 This is the defacto image. If you are unsure about what your needs are, you
 probably want to use this one. It is designed to be used both as a throw away
 container as well as the base to build other images off of.
-
-This was originally based on [`hseeberger/scala-sbt`] but modified to be based
-on slim base for a smaller build.
-
-[`hseeberger/scala-sbt`]: https://github.com/hseeberger/scala-sbt
 
 ### `openlaw/scala-builder:*-node`
 
@@ -42,13 +41,18 @@ dependency of ScalaJS*, and should never be used as a base image for node
 projects. (For actual node projects, use an official node image as the builder
 for much better results).
 
-## Usage ##
+## Usage
 
 ```
-docker run -it --rm openlaw/scala-builder
+$ docker run -it --rm openlaw/scala-builder
 ```
 
-## License ##
+By default the WORKDIR is set to `/src`, so if you want to mount local code you
+can do something like:
+
+    docker run --rm -v $(pwd):/src openlaw/scala-builder sbt compile
+
+## License
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

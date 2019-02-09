@@ -4,9 +4,12 @@ services:
   - docker
 
 # pull existing releases, so docker build can leverage them via --cache-from
+#
+# (retrieval failure should be allowed in case this is the first time a variant
+# is being built)
 before_script:
-  - docker pull openlaw/scala-builder:slim
-  - docker pull openlaw/scala-builder:node
+  - docker pull openlaw/scala-builder:alpine && echo "OK" || echo "NOK"
+  - docker pull openlaw/scala-builder:node   && echo "OK" || echo "NOK"
 
 script:
   - make
