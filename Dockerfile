@@ -11,7 +11,6 @@ ARG SCALA_VERSION=2.12.8
 ARG SBT_VERSION=1.2.8
 
 # Environment variables
-ENV SCALA_HOME=/usr/share/scala
 ENV SBT_HOME=/usr/share/sbt
 
 # Install and keep a copy of bash.  Some scala/scalac scripts depend on bash(!),
