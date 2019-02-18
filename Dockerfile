@@ -21,11 +21,11 @@ RUN apk add --no-cache bash
 #
 # The sbt downloadable archive bundles a `local-preloaded` directory which
 # contains pre-cached versions of libraries needed for sbt to function, which is
-# supposed to be copied to the user's local ivy cache one first run. However,
+# supposed to be copied to the user's local ivy cache on first run. However,
 # there are two problems with this:
 #
 #  1. The installation, handled via syncPreloaded() in sbt-launch-lib.bash,
-#     appears to be buggy and doesn't actually function in this case, resulting
+#     appears to be buggy and doesn't actually trigger in this case, resulting
 #     in copies of all the libraries being redownloaded from the internet.
 #
 #  2. The installation installs via rsync archive, which will keep both copies
@@ -79,10 +79,12 @@ RUN apk add --no-cache --virtual=build-deps curl && \
     # Get rid of build-dependencies we only needed for this install step
     apk del build-deps
 
-# Verify SBT is installed successfully. This layer also exists to ensure it is a
-# no-op, if inspection reveals additional files are being automatically
-# installed at this step, then we probably didnt successfully fully cache
-# install SBT previously.
+# Verify SBT is installed successfully.
+#
+# This step doesn't really do anything, and should be a no-op. Thus it also
+# exists somewhat as a debug layer -- if inspection/logs reveal that additional
+# file are being automatically installed at this step, then we probably didnt
+# successfully fully cache install SBT in the previous step.
 RUN sbt sbtVersion
 
 # Define working directory. This is basically just the starting point for usage
@@ -94,7 +96,7 @@ WORKDIR /src
 #
 # SBT *really* wants to manage Scala itself and will fight you if you try to do
 # other ways, so we cave in and let it download a copy of the version we want
-# for caching. Unfortunately, it has no command to this explicitly that we
+# for caching. Unfortunately, it has no command to do this explicitly that we
 # could discover, so the only way to make this happen is to create a phantom
 # project, compile it, and then delete it afterwards.
 #
