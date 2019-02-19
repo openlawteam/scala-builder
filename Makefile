@@ -8,26 +8,26 @@ RELEASE_TAG := $(shell git describe --tag \
 									--exact-match HEAD \
 									2>/dev/null)
 
-.PHONY: all slim node tag-slim tag-node publish
+.PHONY: all alpine node tag-alpine tag-node publish
 
-all: tag-slim tag-node
+all: tag-alpine tag-node
 
-slim:
+alpine:
 	docker build \
-		--cache-from $(NAME):slim \
-		-t $(NAME):latest -t $(NAME):slim .
+		--cache-from $(NAME):alpine \
+		-t $(NAME):latest -t $(NAME):alpine .
 
-node: slim
+node: alpine
 	docker build -f Dockerfile.node \
 		--cache-from $(NAME):node \
 		-t $(NAME):node .
 
-tag-slim: slim
-	@ # if release version, add :X.Y.Z and :X.Y.Z-slim to tags
+tag-alpine: alpine
+	@ # if release version, add :X.Y.Z and :X.Y.Z-alpine to tags
 	@ if [ ! -z ${RELEASE_TAG} ]; then \
-		echo "Tagging slim release images for $(RELEASE_TAG)" ;\
-		docker tag $(NAME):slim $(NAME):$(RELEASE_TAG:v%=%) ; \
-		docker tag $(NAME):slim $(NAME):$(RELEASE_TAG:v%=%)-slim ; \
+		echo "Tagging alpine release images for $(RELEASE_TAG)" ;\
+		docker tag $(NAME):alpine $(NAME):$(RELEASE_TAG:v%=%) ; \
+		docker tag $(NAME):alpine $(NAME):$(RELEASE_TAG:v%=%)-alpine ; \
 	fi
 
 tag-node: node
@@ -38,9 +38,14 @@ tag-node: node
 	fi
 
 publish:
-	docker push $(NAME):slim
+	docker push $(NAME):alpine
 	docker push $(NAME):node
 	docker push $(NAME):latest
 	docker push $(NAME):$(RELEASE_TAG:v%=%)
-	docker push $(NAME):$(RELEASE_TAG:v%=%)-slim
+	docker push $(NAME):$(RELEASE_TAG:v%=%)-alpine
 	docker push $(NAME):$(RELEASE_TAG:v%=%)-node
+
+lint:
+	docker run --rm -v $(PWD):/src replicated/dockerfilelint \
+		/src/Dockerfile \
+		/src/Dockerfile.node
