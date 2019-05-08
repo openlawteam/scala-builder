@@ -52,6 +52,11 @@ can do something like:
 
     docker run --rm -v $(pwd):/src openlaw/scala-builder sbt compile
 
+## Release process
+
+The CI system will automatically build and release anything with a Semantic
+Version tag to Docker Hub. Please use GitHub Releases to mark the release.
+
 ## License
 
 Licensed under the Apache License, Version 2.0 (the "License");
