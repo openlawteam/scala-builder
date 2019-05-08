@@ -5,11 +5,11 @@
 #
 # https://github.com/sbt/sbt/issues/4168
 #
-# Current patch version:                  8u201
-# Next scheduled critical release:        16 Apr 2019
-# Current patch  version expiration date: 16 May 2019
-# https://www.oracle.com/technetwork/java/javase/8u201-relnotes-5209271.html
-FROM openjdk:8u201-alpine
+# Current patch version:                  8u212
+# Next scheduled critical release:        16 July 2019
+# Current version expiration date:        16 August 2019
+# https://www.oracle.com/technetwork/java/javase/8u212-relnotes-5292913.html
+FROM openjdk:8u212-alpine
 
 # Build variables
 ARG SCALA_VERSION=2.12.8
