@@ -8,7 +8,7 @@ RELEASE_TAG := $(shell git describe --tag \
 									--exact-match HEAD \
 									2>/dev/null)
 
-.PHONY: all alpine node tag-alpine tag-node publish
+.PHONY: all alpine node tag-alpine tag-node publish lint
 
 all: tag-alpine tag-node
 

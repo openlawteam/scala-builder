@@ -12,6 +12,7 @@ before_script:
   - docker pull openlaw/scala-builder:node   && echo "OK" || echo "NOK"
 
 script:
+  - make lint
   - make
 
 after_success:
