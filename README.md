@@ -25,7 +25,7 @@ docker pull openlaw/scala-builder
 
 ## Image Variants
 
-### `openlaw/scala-builder:`, `openlaw:scala-builder:*-alpine`
+### `openlaw/scala-builder:`, `openlaw/scala-builder:*-alpine`
 
 This is the defacto image. If you are unsure about what your needs are, you
 probably want to use this one. It is designed to be used both as a throw away
