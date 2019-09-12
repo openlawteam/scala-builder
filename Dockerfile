@@ -12,7 +12,7 @@
 FROM openjdk:8u212-alpine
 
 # Build variables
-ARG SCALA_VERSION=2.12.8
+ARG SCALA_VERSION=2.12.10
 ARG SBT_VERSION=1.2.8
 
 # Environment variables
