@@ -25,6 +25,12 @@ docker pull openlaw/scala-builder
 
 ## Image Variants
 
+_Note: only a single version of Scala/SBT is preinstalled on each image (see the
+`SCALA_VERSION` and `SBT_VERSION` args), it is intended that projects will use a
+standardized version. When using this as a base image in a project, be sure to
+include the version tag and upgrade in lockstep with your scala/sbt versions in
+the project._
+
 ### `openlaw/scala-builder:`, `openlaw/scala-builder:*-alpine`
 
 This is the defacto image. If you are unsure about what your needs are, you
