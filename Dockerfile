@@ -7,7 +7,7 @@
 FROM adoptopenjdk/openjdk8:jdk8u242-b08-alpine
 
 # Build variables
-ARG SCALA_VERSION=2.12.10
+ARG SCALA_VERSION=2.12.11
 ARG SBT_VERSION=1.2.8
 
 # Environment variables
