@@ -1,15 +1,10 @@
 ## Scala and sbt Dockerfile
 
-# OpenJDK8 is the latest series supported on Alpine Linux, but more importantly,
-# we need to stick with 8 for builds on docker due to this issue:
+# OpenJDK8 is the recommended stable series supported on Alpine Linux, but more
+# importantly, we need to stick with 8 for builds on docker due to this issue:
 #
 # https://github.com/sbt/sbt/issues/4168
-#
-# Current patch version:                  8u212
-# Next scheduled critical release:        16 July 2019
-# Current version expiration date:        16 August 2019
-# https://www.oracle.com/technetwork/java/javase/8u212-relnotes-5292913.html
-FROM openjdk:8u212-alpine
+FROM adoptopenjdk/openjdk8:jdk8u242-b08-alpine
 
 # Build variables
 ARG SCALA_VERSION=2.12.10
