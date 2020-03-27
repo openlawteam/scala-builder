@@ -1,0 +1,20 @@
+name: Docker Build and Publish
+on: [push]
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: build and tag images
+        run: make
+      # if ref is a semantic version tag, login and publish images to dockerhub
+      - name: docker registry login
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - name: publish images
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: make publish
