@@ -4,11 +4,11 @@
 # importantly, we need to stick with 8 for builds on docker due to this issue:
 #
 # https://github.com/sbt/sbt/issues/4168
-FROM adoptopenjdk/openjdk8:jdk8u242-b08-alpine
+FROM adoptopenjdk/openjdk8:jdk8u262-b10-alpine
 
 # Build variables
-ARG SCALA_VERSION=2.12.11
-ARG SBT_VERSION=1.2.8
+ARG SCALA_VERSION=2.12.12
+ARG SBT_VERSION=1.3.13
 
 # Environment variables
 ENV SBT_HOME=/usr/share/sbt
