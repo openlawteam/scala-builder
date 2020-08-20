@@ -4,11 +4,11 @@
 # importantly, we need to stick with 8 for builds on docker due to this issue:
 #
 # https://github.com/sbt/sbt/issues/4168
-FROM adoptopenjdk/openjdk8:jdk8u242-b08-alpine
+FROM adoptopenjdk/openjdk8:jdk8u262-b10-alpine
 
 # Build variables
-ARG SCALA_VERSION=2.12.11
-ARG SBT_VERSION=1.2.8
+ARG SCALA_VERSION=2.12.12
+ARG SBT_VERSION=1.3.13
 
 # Environment variables
 ENV SBT_HOME=/usr/share/sbt
@@ -19,31 +19,7 @@ RUN apk add --no-cache bash
 
 # Install SBT
 #
-# The sbt downloadable archive bundles a `local-preloaded` directory which
-# contains pre-cached versions of libraries needed for sbt to function, which is
-# supposed to be copied to the user's local ivy cache on first run. However,
-# there are two problems with this:
-#
-#  1. The installation, handled via syncPreloaded() in sbt-launch-lib.bash,
-#     appears to be buggy and doesn't actually trigger in this case, resulting
-#     in copies of all the libraries being redownloaded from the internet.
-#
-#  2. The installation installs via rsync archive, which will keep both copies
-#     around, resulting in an extra ~50MB of duplicates in the image.
-#
-# Therefore, we could relocate the preload directory to where it should end
-# up (usually $HOME/.sbt/preloaded, but see getPreloaded in sbt-launch.lib.bash
-# for more details of how this is calculated) instead of leaving two copies
-# lying around.
-#
-# HOWEVER, even then, the first execution of sbt will "download" from this
-# preload folder, creating a third copy with a slightly different directory
-# structure in $HOME/.ivy2/cache (yep, it copies, it doesnt symlink or move).
-# And naturally that directory structure is different enough that you can't just
-# put the local-preloaded directory there to begin with. Thus, we need to
-# execute sbt once and then delete the preload cache after.
-#
-# Additionally, there are Windows specific files included in the download that
+# There are Windows specific files included in the download that
 # we remove to save space and avoid confusion (bin/sbt.bat conf/sbtconfig.txt).
 #
 # And yep, we do this all in one mega command to keep the layer small. If you
@@ -55,9 +31,7 @@ RUN apk add --no-cache bash
 #     https://git.alpinelinux.org/aports/tree/testing/sbt/APKBUILD.
 #
 # But we don't want to depend on something outside of the stable alpine
-# tracking, and this additionally does not handle the installation of the
-# local-preloaded library -- so if switching to it in the future be sure to
-# cache that directory manually as well.
+# tracking.
 RUN apk add --no-cache --virtual=build-deps curl && \
     # Install sbt base
     mkdir -p "${SBT_HOME}" && \
@@ -65,14 +39,8 @@ RUN apk add --no-cache --virtual=build-deps curl && \
     curl -fsL "https://github.com/sbt/sbt/releases/download/v${SBT_VERSION}/sbt-${SBT_VERSION}.tgz" \
       | tar xfz - --strip-components=1 -C "${SBT_HOME}" && \
     ln -s "${SBT_HOME}"/bin/sbt /usr/local/bin/sbt && \
-    # Put the preloaded library files where sbt will detect them, and let it
-    # invoke once which will "download" them from local filesystem
     mkdir -p "${HOME}"/.sbt && \
-    mv "${SBT_HOME}"/lib/local-preloaded "${HOME}"/.sbt/preloaded && \
     sbt ++"${SCALA_VERSION}" sbtVersion && \
-    # Now that sbt is happy, get rid of the preload library directory so
-    # we dont have two copies taking up extra space (its about 50mb!)
-    rm -r "${HOME}"/.sbt/preloaded && \
     # Get rid of Windows specific files
     rm "${SBT_HOME}"/bin/sbt.bat && \
     rm "${SBT_HOME}"/conf/sbtconfig.txt && \
