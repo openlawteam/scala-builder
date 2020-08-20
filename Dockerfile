@@ -1,10 +1,6 @@
 ## Scala and sbt Dockerfile
 
-# OpenJDK8 is the recommended stable series supported on Alpine Linux, but more
-# importantly, we need to stick with 8 for builds on docker due to this issue:
-#
-# https://github.com/sbt/sbt/issues/4168
-FROM adoptopenjdk/openjdk8:jdk8u262-b10-alpine
+FROM adoptopenjdk/openjdk11:x86_64-alpine-jdk-11.0.8_10
 
 # Build variables
 ARG SCALA_VERSION=2.12.12
@@ -99,4 +95,4 @@ RUN \
 #
 # [1]: https://github.com/sbt/sbt/issues/4168
 # [2]: https://stackoverflow.com/a/54138157
-COPY dockerfix.sbt /root/.sbt/1.0/dockerfix.sbt
+# COPY dockerfix.sbt /root/.sbt/1.0/dockerfix.sbt
